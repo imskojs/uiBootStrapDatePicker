@@ -27,7 +27,12 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
   shortcutPropagation: false
 })
 
-.controller('DatepickerController', ['$scope', '$attrs', '$parse', '$interpolate', '$timeout', '$log', 'dateFilter', 'datepickerConfig', function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig) {
+.controller('DatepickerController', [
+
+'$scope', '$attrs', '$parse', '$interpolate', '$timeout', '$log', 
+'dateFilter', 'datepickerConfig', 'DetailModel', 
+
+function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig, DetailModel) {
   var self = this,
       ngModelCtrl = { $setViewValue: angular.noop }; // nullModelCtrl;
 
@@ -75,6 +80,7 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
     }
     return false;
   };
+
 
   this.init = function( ngModelCtrl_ ) {
     ngModelCtrl = ngModelCtrl_;
@@ -204,6 +210,20 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
       self.refreshView();
     }
   };
+
+
+
+//==========================================================================
+//              Custom Functions By Seunghoon Ko
+//==========================================================================
+
+$scope.dayClickHandler = function (dt){
+  angular.copy(dt, DetailModel.selectedDate);
+  DetailModel.dayClickHandler(dt);
+}
+
+
+
 }])
 
 .directive( 'datepicker', function () {
@@ -1106,7 +1126,7 @@ angular.module("template/datepicker/day.html", []).run(["$templateCache", functi
     "  <tbody>\n" +
     "    <tr ng-repeat=\"row in rows track by $index\">\n" +
     "      <td ng-show=\"showWeeks\" class=\"text-center h6\"><em>{{ weekNumbers[$index] }}</em></td>\n" +
-    "      <td ng-repeat=\"dt in row track by dt.date\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\" ng-class=\"dt.customClass\">\n" +
+    "      <td ng-repeat=\"dt in row track by dt.date\" ng-click=\"dayClickHandler(dt)\"class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\" ng-class=\"dt.customClass\">\n" +
     "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default btn-sm\" ng-class=\"{'btn-info': dt.selected, active: isActive(dt)}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-muted': dt.secondary, 'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
     "      </td>\n" +
     "    </tr>\n" +
@@ -1127,7 +1147,7 @@ angular.module("template/datepicker/month.html", []).run(["$templateCache", func
     "  </thead>\n" +
     "  <tbody>\n" +
     "    <tr ng-repeat=\"row in rows track by $index\">\n" +
-    "      <td ng-repeat=\"dt in row track by dt.date\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
+    "      <td ng-repeat=\"dt in row track by dt.date\" ng-click=\"dayClickHandler(dt)\" class=\"text-center\" role=\"gridcell\" id=\"{{dt.uid}}\" aria-disabled=\"{{!!dt.disabled}}\">\n" +
     "        <button type=\"button\" style=\"width:100%;\" class=\"btn btn-default\" ng-class=\"{'btn-info': dt.selected, active: isActive(dt)}\" ng-click=\"select(dt.date)\" ng-disabled=\"dt.disabled\" tabindex=\"-1\"><span ng-class=\"{'text-info': dt.current}\">{{dt.label}}</span></button>\n" +
     "      </td>\n" +
     "    </tr>\n" +
