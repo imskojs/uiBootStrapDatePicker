@@ -30,9 +30,9 @@ angular.module('ui.bootstrap.datepicker', ['ui.bootstrap.dateparser', 'ui.bootst
 .controller('DatepickerController', [
 
 '$scope', '$attrs', '$parse', '$interpolate', '$timeout', '$log', 
-'dateFilter', 'datepickerConfig', 'DetailModel', 
+'dateFilter', 'datepickerConfig', 'PlaceDetailModel', 
 
-function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig, DetailModel) {
+function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datepickerConfig, PlaceDetailModel) {
   var self = this,
       ngModelCtrl = { $setViewValue: angular.noop }; // nullModelCtrl;
 
@@ -218,8 +218,8 @@ function($scope, $attrs, $parse, $interpolate, $timeout, $log, dateFilter, datep
 //==========================================================================
 
 $scope.dayClickHandler = function (dt){
-  angular.copy(dt, DetailModel.selectedDate);
-  DetailModel.dayClickHandler(dt);
+  angular.copy(dt, PlaceDetailModel.selectedDate);
+  PlaceDetailModel.dayClickHandler(dt);
 }
 
 
